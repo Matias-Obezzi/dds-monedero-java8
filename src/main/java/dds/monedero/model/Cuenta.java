@@ -39,11 +39,6 @@ public class Cuenta {
     agregarMovimiento(new Movimiento(LocalDate.now(), cuanto, false));
   }
 
-  public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
-    Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
-    movimientos.add(movimiento);
-  }
-
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
         .filter(movimiento -> !movimiento.isDeposito() && movimiento.isDeLaFecha(fecha))
