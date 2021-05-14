@@ -22,21 +22,21 @@ public class Cuenta {
     saldo = montoInicial;
   }
 
-  public void setMovimientos(List<Movimiento> movimientos) {
-    this.movimientos = movimientos;
+  public void agregarMovimiento(Movimiento movimiento) {
+    movimientos.add(movimiento);
   }
 
   public void poner(double cuanto) {
     validarMontoPositivo(cuanto);
     validarLimiteDepositosDiarios(cuanto);
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    agregarMovimiento(new Movimiento(LocalDate.now(), cuanto, true));
   }
 
   public void sacar(double cuanto) {
     validarMontoPositivo(cuanto);
     validarMontoExtraccion(cuanto);
     validarMontoLimiteDiario(cuanto);
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    agregarMovimiento(new Movimiento(LocalDate.now(), cuanto, false));
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
