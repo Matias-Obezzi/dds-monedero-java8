@@ -31,19 +31,18 @@ Tenés seis tareas:
 ### Cuenta
 - Cuenta con un constructor que estable el saldo en 0. Podria hacerse uso del constructor que recibe como parametro el valor de saldo.
 - Metodo setMovimientos inutil porque jamas se usa ademas de que, como los movimientos son un historial de cosas, no tiene sentido mutarlos
-- Poner y sacar tinen logica similar, realizan validaciones sobre la operacion y luego agregan un movimiento. Podria utilizarse patron Guard
-- CodeSmells de poner:
- - La validacion del valor de la variable cuanto se realiza tambien en sacar
- - La validacion de operaciones diarias podria delegarse dado que complejiza la lectura del codigo
- - La validacion de operaciones utiliza un getter para una propiedad de la clase
- - Delega el agregado de un movimiento, a la lista de movimientos, al propio movimiento. Este ultimo llama a clase Cuenta para agregar un movimiento.
-- CodeSmells de sacar:
- - La validacion del valor de la variable cuanto se realiza tambien en poner
- - La validacion de monto diario retirado podria delegarse dado que complejiza la lectura del codigo
- - La validacion de operaciones utiliza un getter para una propiedad de la clase
+- Metodo poner:
+    - Logica similar a sacar (validar y agregar)
+    - La validacion del valor de la variable cuanto se realiza tambien en sacar
+    - La validacion de operaciones diarias podria delegarse dado que complejiza la lectura del codigo
+    - La validacion de operaciones utiliza un getter para una propiedad de la clase
+    - Delega el agregado de un movimiento, a la lista de movimientos, al propio movimiento. Este ultimo llama a clase Cuenta para agregar un movimiento.
+- Metodo sacar:
+    - Logica similar a poner (validar y agregar)
+    - La validacion del valor de la variable cuanto se realiza tambien en poner
+    - La validacion de monto diario retirado podria delegarse dado que complejiza la lectura del codigo
+    - La validacion de operaciones utiliza un getter para una propiedad de la clase
 - En getMontoExtraidoA falta delegar responsabilidad al movimiento para que nos diga si es deposito y si es del dia de hoy
 
 ### Movimiento
-- fueDepositado jamas utilizado
-- fueExtraido jamas utilizado
 - agregateA esta realizando algo que deberia ser responsabilidad de Cuenta
