@@ -4,6 +4,9 @@ import dds.monedero.exceptions.MaximaCantidadDepositosException;
 import dds.monedero.exceptions.MaximoExtraccionDiarioException;
 import dds.monedero.exceptions.MontoNegativoException;
 import dds.monedero.exceptions.SaldoMenorException;
+import dds.monedero.model.movimiento.Deposito;
+import dds.monedero.model.movimiento.Extraccion;
+import dds.monedero.model.movimiento.Movimiento;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,19 +32,19 @@ public class Cuenta {
   public void poner(double cuanto) {
     validarLimiteDepositosDiarios();
     validarMontoPositivo(cuanto);
-    agregarMovimiento(new Movimiento(LocalDate.now(), cuanto, true));
+    agregarMovimiento(new Deposito(LocalDate.now(), cuanto));
   }
 
   public void sacar(double cuanto) {
     validarMontoPositivo(cuanto);
     validarMontoExtraccion(cuanto);
     validarMontoLimiteDiario(cuanto);
-    agregarMovimiento(new Movimiento(LocalDate.now(), cuanto, false));
+    agregarMovimiento(new Extraccion(LocalDate.now(), cuanto));
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.isDeLaFecha(fecha))
+        .filter(movimiento -> movimiento.fueExtraido(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
@@ -66,7 +69,7 @@ public class Cuenta {
 
   private void validarLimiteDepositosDiarios() {
     // El limite de depositos diarios podria ser una propiedad y establecerse en el constructor
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
+    if (getMovimientos().stream().filter(movimiento -> !movimiento.isExtraccion()).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
   }
