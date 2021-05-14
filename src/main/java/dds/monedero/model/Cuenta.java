@@ -65,6 +65,7 @@ public class Cuenta {
   }
 
   private void validarLimiteDepositosDiarios() {
+    // El limite de depositos diarios podria ser una propiedad y establecerse en el constructor
     if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
@@ -74,6 +75,8 @@ public class Cuenta {
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now()),
       limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
+      // El limite del monto total de extracciones diarias podria ser una propiedad y
+      // establecerse en el constructor
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
               + " diarios, límite: " + limite);
     }
