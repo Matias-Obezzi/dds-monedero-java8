@@ -43,9 +43,8 @@ public class Movimiento {
     return !esDeposito;
   }
 
-  public void agregateA(Cuenta cuenta) {
-    cuenta.setSaldo(calcularValor(cuenta));
-    cuenta.agregarMovimiento(fecha, monto, esDeposito);
+  public boolean isDeLaFecha(LocalDate fecha) {
+    return this.fecha.equals(fecha);
   }
 
   public double calcularValor(Cuenta cuenta) {
