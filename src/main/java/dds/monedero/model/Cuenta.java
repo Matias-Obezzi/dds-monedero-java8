@@ -30,16 +30,21 @@ public class Cuenta {
   }
 
   public void poner(double cuanto) {
-    validarLimiteDepositosDiarios();
     validarMontoPositivo(cuanto);
-    agregarMovimiento(new Deposito(LocalDate.now(), cuanto));
+    validarLimiteDepositosDiarios();
+    realizarOperacion(new Deposito(LocalDate.now(), cuanto));
   }
 
   public void sacar(double cuanto) {
     validarMontoPositivo(cuanto);
     validarMontoExtraccion(cuanto);
     validarMontoLimiteDiario(cuanto);
-    agregarMovimiento(new Extraccion(LocalDate.now(), cuanto));
+    realizarOperacion(new Extraccion(LocalDate.now(), cuanto));
+  }
+
+  private void realizarOperacion(Movimiento movimiento) {
+    agregarMovimiento(movimiento);
+    this.saldo = movimiento.calcularValor(this);
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
